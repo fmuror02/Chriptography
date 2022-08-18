@@ -1,0 +1,100 @@
+#Chriptograhic encoder and decoder that uses the value of the last hashed password to encode.
+
+from decimal import *
+import string
+
+class Chriptography:
+    
+    def __init__(self,codenumber,passwords):
+        self.codenumber = codenumber
+        self.passwords = passwords
+   
+    def Encode(codenumber,passwords):
+        
+        #Encodes passwords
+        global hpass
+        
+        v0 = codenumber
+        alph = list(string.ascii_lowercase)
+        code = ""
+        hpass = [v0]
+        
+        for i in passwords:
+            
+            if type(i) == int:
+                pass
+            else:
+                for r in i:
+                    num = str(ord(r)-64)
+                    code = code + num
+                
+                hpass.append(code)
+                ind = hpass.index(code)
+                ind -= 1
+                div = hpass[ind]
+                div = Decimal(div)
+                hash = int(code)/div
+                hpass[ind +1] = hash
+                code = ''
+        print('Hashed passwords: ',end= "")
+        for i in hpass:
+            if hpass.index(i) == 0:
+                pass
+            else:
+                print(i,end="  //  ")
+        print()
+
+
+    def Decode():
+        
+        #To use the decode method first use the encode method or use the independent decoder
+        
+        print('Unhashed passwords:',end=' ')
+        
+        for i in hpass:
+            
+            if hpass.index(i) == 0:
+                pass
+            else:
+                
+                ind = hpass.index(i) 
+                ind -= 1
+                div = hpass[ind]
+                string = str(int(i*div))
+                decoded = ""
+                split = [string[idx:idx + 2] for idx in range(0, len(string), 2)]
+                for i in split:
+                    decoded += chr(int(i)+64)
+                print(decoded,end="  //  ")
+            decoded = ""                
+        print()        
+
+    def InDecode(hashedpasswords):
+        
+        #Independent decoder.
+        print('Unhashed passwords:',end=' ')
+        hpass = hashedpasswords
+        
+        for i in hpass:
+            
+            if hpass.index(i) == 0:
+                pass
+            else:
+                
+                ind = hpass.index(i) 
+                ind -= 1
+                div = hpass[ind]
+                string = str(int(i*div))
+                decoded = ""
+                split = [string[idx:idx + 2] for idx in range(0, len(string), 2)]
+                for i in split:
+                    decoded += chr(int(i)+64)
+                print(decoded,end="  //  ")
+            decoded = "" 
+        print()                           
+        
+#Example for parametres;
+    
+codenumber = 2
+passwords = ['ab','cd']
+hashedpasswords = [2,3.1,6.2]
